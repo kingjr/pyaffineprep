@@ -234,7 +234,7 @@ class STC(object):
         """
 
         # set basic meta params
-        if not raw_data is None:
+        if raw_data is not None:
             raw_data = self._sanitize_raw_data(raw_data, fitting=True,)
             self.n_slices = raw_data.shape[2]
             self.n_scans = raw_data.shape[-1]
@@ -264,7 +264,7 @@ class STC(object):
 
         # timing info (slice_TR is the time of acquisition of a single slice,
         # as a fractional multiple of the TR)
-        if not timing is None:
+        if timing is not None:
             TR = (self.n_slices - 1) * timing[0] + timing[1]
             slice_TR = timing[0] / TR
             assert 0 <= slice_TR < 1
@@ -471,11 +471,11 @@ class fMRISTC(STC):
     def transform(self, raw_data=None, output_dir=None,
                   affine=None, prefix='a', basenames=None, ext=None):
         self.output_data_ = STC.transform(self, raw_data=raw_data)
-        if not basenames is None:
+        if basenames is not None:
             self.basenames_ = basenames
-        if not affine is None:
+        if affine is not None:
             self.affine_ = affine
-        if not output_dir is None:
+        if output_dir is not None:
             if not os.path.exists(output_dir):
                 os.makedirs(output_dir)
         if hasattr(self, 'affine_'):
@@ -489,7 +489,7 @@ class fMRISTC(STC):
             else:
                 self.output_data_ = nibabel.Nifti1Image(self.output_data_,
                                                         self.affine_)
-            if not output_dir is None:
+            if output_dir is not None:
                 self.output_data_ = save_vols(
                     self.output_data_,
                     output_dir, prefix=prefix,

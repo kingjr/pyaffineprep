@@ -19,7 +19,7 @@ def create_random_image(shape=None,
         shape = rng.random_integers(20, size=ndim)
     ndim = len(shape)
     ndim = len(shape)
-    if not n_scans is None and ndim == 4:
+    if n_scans is not None and ndim == 4:
         shape[-1] = n_scans
     return parent_class(np.random.randn(*shape), affine)
 

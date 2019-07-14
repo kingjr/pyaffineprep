@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
         # preproc data
         subject_data.sanitize()
-        print subject_data
+        print(subject_data)
         do_subject_preproc(
             subject_data, concat=True, coregister="coreg" not in opts.ignore,
             tsdiffana=True, realign="mc" not in opts.ignore, report=True,

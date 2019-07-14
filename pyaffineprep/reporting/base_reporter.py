@@ -74,7 +74,7 @@ def dict_to_html_ul(mydict):
         if isinstance(stuff, dict):
             val = "<ul>"
             for _k, _v in stuff.items():
-                if not _v is None:
+                if _v is not None:
                     val += "<li>%s: %s</li>" % (_k, make_li(_v))
             val += "</ul>"
         # handle tuple type
@@ -96,7 +96,7 @@ def dict_to_html_ul(mydict):
     elif isinstance(mydict, dict):
         html_ul = ""
         for k, v in mydict.items():
-            if not v is None:
+            if v is not None:
                 html_ul += "<li>%s: %s</li>" % (k, make_li(v))
         html_ul += "</ul>"
     else:
@@ -170,7 +170,7 @@ class _HTMLElement(bunch):
         bunch.__init__(self, **kwargs)
 
         for param in self._compulsary_params:
-            if not param in kwargs:
+            if param not in kwargs:
                 raise ValueError(
                     "Need to specify '%s' parameter for HTML %s" % (
                         param, self.__class__.__name__))
@@ -298,7 +298,7 @@ def commit_subject_thumnbail_to_parent_gallery(thumbnail, subject_id,
     """
     # sanitize thumbnail
     assert hasattr(thumbnail, 'img')
-    assert not thumbnail.img is None
+    assert thumbnail.img is not None
 
     # resize thumbnail
     thumbnail.img.height = "250px"
@@ -336,7 +336,7 @@ class ProgressReport(object):
         if other_watched_files is None:
             other_watched_files = []
         self.log_filename = log_filename
-        if not self.log_filename is None:
+        if self.log_filename is not None:
             open(self.log_filename, 'a').close()
         self.watched_files = []
         self.watch_files(other_watched_files)
@@ -373,7 +373,7 @@ class ProgressReport(object):
             i_fd.close()
 
             # prevent pages from reloaded automaticall henceforth
-            meta_reloader = "<meta http\-equiv=refresh content=.+?>"
+            meta_reloader = "<meta http\-equiv=refresh content=.+?>"  # noqa
             content = re.sub(meta_reloader, "", content)
 
             old_state = ("<font color=red><i>STILL RUNNING .."

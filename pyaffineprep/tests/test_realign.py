@@ -157,7 +157,8 @@ def test_appy_realigment_and_extract_realignment_params_APIs():
 def test_MRIMotionCorrection_fit():
     # setup
     output_dir = os.path.join(OUTPUT_DIR, inspect.stack()[0][3])
-    if not os.path.exists(output_dir): os.makedirs(output_dir)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
     n_scans = 2
     lkp = np.arange(6)
     translation = np.array([1, 3, 2])  # mm
@@ -169,7 +170,8 @@ def test_MRIMotionCorrection_fit():
                                         "test_data/spmmmfmri.mat"),
                            squeeze_me=True, struct_as_record=False)
     data = np.ndarray(list(vol['data'].shape) + [n_scans])
-    for t in range(n_scans): data[..., t] = vol['data']
+    for t in range(n_scans):
+        data[..., t] = vol['data']
     film = nibabel.Nifti1Image(data, vol['affine'])
 
     # rigidly move other volumes w.r.t. the first
@@ -198,10 +200,12 @@ def test_MRIMotionCorrection_fit():
             # check the estimated motion is well within our MAX_RE limit
             _tmp[:3] += _make_vol_specific_translation(translation, n_scans, t)
             _tmp[3:6] += _make_vol_specific_rotation(rotation, n_scans, t)
-            if t > 0: np.testing.assert_allclose(
+            if t > 0:
+                np.testing.assert_allclose(
                     mrimc.realignment_parameters_[0][t][lkp],
                     _tmp[lkp], rtol=MAX_RE)
-            else: np.testing.assert_array_equal(
+            else:
+                np.testing.assert_array_equal(
                     mrimc.realignment_parameters_[0][t],
                     get_initial_motion_params()[:6])
 

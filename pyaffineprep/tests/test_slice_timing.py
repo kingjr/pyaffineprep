@@ -121,7 +121,7 @@ def test_STC_for_sinusoidal_mixture():
     slice_TR = 1. * TR / n_slices
     time_shift = slice_indices * slice_TR
     shifted_acquisition_time = np.array([tau + acquisition_time
-                                     for tau in time_shift])
+                                         for tau in time_shift])
 
     # acquire the signal at the corrupt sampled time points
     acquired_signal = np.array([
@@ -194,7 +194,7 @@ def test_STC_for_HRF():
     slice_TR = 1. * TR / n_slices
     time_shift = slice_indices * slice_TR
     shifted_acquisition_time = np.array([tau + acquisition_time
-                                     for tau in time_shift])
+                                         for tau in time_shift])
 
     # acquire the signal at the corrupt sampled time points
     acquired_sample = np.array([_compute_hrf(
@@ -229,8 +229,10 @@ def test_transform():
 
     # filenames
     film_filename = os.path.join(output_dir, 'film.nii.gz')
-    threeD_vols_filenames = [os.path.join(output_dir, 'fMETHODS-%06i.nii.gz' % i)
-                             for i in range(len(threeD_vols))]
+    threeD_vols_filenames = [
+        os.path.join(output_dir, 'fMETHODS-%06i.nii.gz' % i)
+        for i in range(len(threeD_vols))
+    ]
 
     for stuff in [film, threeD_vols]:
         for as_files in [False, True]:

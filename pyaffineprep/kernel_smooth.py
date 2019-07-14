@@ -97,10 +97,10 @@ def _crop(X, tol=1.0e-10):
 
     aX = np.fabs(X)
     ndim = X.ndim
-    I = np.indices(X.shape)[:, np.greater(aX, tol)]
-    if I.shape[1] > 0:
-        m = [I[i].min() for i in range(ndim)]
-        M = [I[i].max() for i in range(ndim)]
+    idx = np.indices(X.shape)[:, np.greater(aX, tol)]
+    if idx.shape[1] > 0:
+        m = [idx[i].min() for i in range(ndim)]
+        M = [idx[i].max() for i in range(ndim)]
         slices = [slice(m[i], M[i] + 1, 1) for i in range(ndim)]
         return X[slices]
     else:
@@ -189,8 +189,7 @@ class LinearFilter(object):
         voxels.shape = (voxels.shape[0], np.product(voxels.shape[1:]))
 
         # physical coordinates relative to center
-        X = get_physical_coords(self._affine,
-                                                        voxels) - phys_center
+        X = get_physical_coords(self._affine, voxels) - phys_center
 
         X.shape = (self._ndims[1],) + tuple(self._bshape)
 
@@ -234,7 +233,7 @@ class LinearFilter(object):
         _X = np.rollaxis(_X, axis)
 
         # convert coordinates to FWHM units
-        if self._fwhm is not 1.0:
+        if self._fwhm != 1.0:
             f = fwhm2sigma(self._fwhm)
             if f.shape == ():
                 f = np.ones(len(self._bshape)) * f
@@ -242,7 +241,7 @@ class LinearFilter(object):
                 _X[i] /= f[i]
 
         # whiten ?
-        if not self._cov is None:
+        if self._cov is not None:
             _chol = scipy.linalg.cholesky(self._cov)
             _X = np.dot(scipy.linalg.inv(_chol), _X)
         # compute squared distance
@@ -413,7 +412,7 @@ def centered_smoothing_kernel(fwhm, x):
     krn = .5 * (scipy.special.erf(w1 * (x + 1)) * (x + 1) + scipy.special.erf(
             w1 * (x - 1)) * (x - 1) - 2 * scipy.special.erf(
             w1 * x) * x) + w3 * (np.exp(w2 * (x + 1) ** 2) + np.exp(
-            w2 * (x - 1) ** 2) - 2 * np.exp(w2 * x ** 2))
+                w2 * (x - 1) ** 2) - 2 * np.exp(w2 * x ** 2))
 
     krn[krn < 0.] = 0
 

@@ -166,7 +166,7 @@ def reslice_vols(vols, target_affine=None, interp_order=3,
                 vol.get_data(), new_grid, order=interp_order, mode=interp_mode)
         else:  # don't reslice first vol
             rdata = vol.get_data().ravel()
-        rdata[~msk]  = 0
+        rdata[~msk] = 0
 
         # replace vols's affine with ref vol's (this has been the ultimate
         # goal all along)

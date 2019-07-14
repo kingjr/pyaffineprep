@@ -13,7 +13,6 @@ from nilearn.plotting import plot_img
 from nilearn.image import reorder_img, mean_img
 from nilearn.image.image import check_niimg
 from nilearn._utils.compat import _basestring
-from ..io_utils import load_vols
 EPS = np.finfo(float).eps
 
 
@@ -42,7 +41,7 @@ def plot_spm_motion_parameters(parameter_file, title=None, close=False):
     # do plotting
     plt.figure()
     plt.plot(motion)
-    if not title is None:
+    if title is not None:
         plt.title(title)
     plt.legend(('TransX', 'TransY', 'TransZ', 'RotX', 'RotY', 'RotZ'),
                loc="upper left", ncol=2)
@@ -174,14 +173,14 @@ def plot_segmentation(
     # add TPM contours
     gm = nibabel.load(gm_filename)
     _slicer.add_contours(gm, levels=[.51], colors=["r"])
-    if not wm_filename is None:
+    if wm_filename is not None:
         _slicer.add_contours(wm_filename, levels=[.51], colors=["g"])
-    if not csf_filename is None:
+    if csf_filename is not None:
         _slicer.add_contours(csf_filename, levels=[.51], colors=['b'])
 
     # misc
     _slicer.title(title, size=12, color='w', alpha=0)
-    if not output_filename is None:
+    if output_filename is not None:
         plt.savefig(output_filename, bbox_inches='tight', dpi=200,
                     facecolor="k",
                     edgecolor="k")

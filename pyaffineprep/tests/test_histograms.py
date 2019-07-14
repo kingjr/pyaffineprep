@@ -3,11 +3,8 @@ import nibabel
 import numpy.testing
 import nose
 import nose.tools
-from ..histograms import(_correct_voxel_samp,
-                         make_sampled_grid,
-                         trilinear_interp,
-                         joint_histogram
-                         )
+from ..histograms import (_correct_voxel_samp, make_sampled_grid,
+                          trilinear_interp, joint_histogram)
 
 
 def test_correct_voxel_samp():
@@ -68,5 +65,3 @@ def test_joint_histogram():
     nose.tools.assert_true(np.all(jh >= 0))
 
     return jh
-
-

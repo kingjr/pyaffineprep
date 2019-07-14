@@ -28,12 +28,12 @@ def create_random_image(shape=None, ndim=3, n_scans=None, affine=np.eye(4),
     Creates a random image of prescribed shape
 
     """
-    if not n_scans is None:
+    if n_scans is not None:
         ndim = 4
     if shape is None:
         shape = np.random.random_integers(20, size=ndim)
     ndim = len(shape)
-    if not n_scans is None and ndim == 4:
+    if n_scans is not None and ndim == 4:
         shape[-1] = n_scans
     return parent_class(np.random.randn(*shape), affine)
 
@@ -89,7 +89,7 @@ def test_save_vols():
                         saved_vols_filenames, list))
                     assert_equal(len(saved_vols_filenames),
                                  n_scans)
-                    if not bn is None:
+                    if bn is not None:
                         assert_equal(os.path.basename(saved_vols_filenames[7]),
                                      'fMETHODS-000007.nii.gz')
                 else:
@@ -173,8 +173,8 @@ def test_hardlink():
 
             return files[0]
         else:
-            l = np.random.randint(1, n)
-            return [_make_filenames(n - l) for _ in range(l)]
+            l_int = np.random.randint(1, n)
+            return [_make_filenames(n - l_int) for _ in range(l_int)]
 
     filenames = _make_filenames()
     hl_filenames = hard_link(filenames, output_dir)
@@ -426,11 +426,13 @@ def test_load_vols_different_affine():
 def test_load_vols_from_single_filename():
     for flim in [True, False][0:]:
         shape = [2, 3, 4]
-        if flim: shape += [5]
+        if flim:
+            shape += [5]
         vols = nibabel.Nifti1Image(np.zeros(shape), np.eye(4))
         vols.to_filename("/tmp/test.nii.gz")
         vols = load_vols("/tmp/test.nii.gz")
-        for vol in vols: assert_equal(vol.shape, tuple(shape[:3]))
+        for vol in vols:
+            assert_equal(vol.shape, tuple(shape[:3]))
 
 
 def test_load_vols_from_singleton_list_of_4D_img():

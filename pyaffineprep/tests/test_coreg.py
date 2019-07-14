@@ -40,7 +40,7 @@ def test_coregister_on_toy_data():
     # compare estimated realigment parameters with ground-truth
     numpy.testing.assert_almost_equal(-c.params_[4], .01, decimal=2)
     numpy.testing.assert_array_almost_equal(-c.params_[[3, 5]],
-                                             [0, 0], decimal=2)
+                                            [0, 0], decimal=2)
     numpy.testing.assert_array_equal(np.round(-c.params_)[[0, 1, 2]],
                                      [1., 1., 1.])
 
@@ -64,6 +64,6 @@ def test_coregister_on_real_data():
     # compare estimated realigment parameters with ground-truth
     numpy.testing.assert_almost_equal(-c.params_[4], .01, decimal=4)
     numpy.testing.assert_array_almost_equal(-c.params_[[3, 5]],
-                                             [0, 0], decimal=4)
+                                            [0, 0], decimal=4)
     numpy.testing.assert_array_equal(np.round(-c.params_)[[0, 1, 2]],
                                      [1., 2., 3.])

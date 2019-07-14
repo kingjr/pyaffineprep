@@ -34,7 +34,7 @@ from .base_reporter import (Thumbnail,
 
 # extention of web-related files (increment this as we support more
 # and more file extensions for web business)
-WEBBY_EXTENSION_PATTERN = ".*\.(?:png|jpeg|html|php|css|txt|rst|js|gif)$"
+WEBBY_EXTENSION_PATTERN = ".*\.(?:png|jpeg|html|php|css|txt|rst|js|gif)$"  # noqa
 
 
 def get_nipype_report_filename(output_files_or_dir):
@@ -499,7 +499,7 @@ def generate_realignment_thumbnails(
         thumbnail.description = "Motion Correction"
         if execution_log_html_filename is not None:
             thumbnail.description += (" (<a href=%s>see execution "
-            "log</a>)") % os.path.basename(
+                                      "log</a>)") % os.path.basename(
                 execution_log_html_filename)
         results_gallery.commit_thumbnails(thumbnail)
         output['rp_plot'] = rp_plot
@@ -587,7 +587,7 @@ def generate_stc_thumbnails(original_bold, st_corrected_bold, output_dir,
             thumbnail.description = "Slice-Timing Correction"
             if execution_log_html_filename is not None:
                 thumbnail.description += (" (<a href=%s>see execution "
-                "log</a>)") % os.path.basename(
+                                          "log</a>)") % os.path.basename(
                     execution_log_html_filename)
 
             results_gallery.commit_thumbnails(thumbnail)

@@ -1,12 +1,12 @@
 #! /usr/bin/env python
 
-descr = """Intra-subject preprocessing of MRI data in pure Python!"""
-
 import sys
 import os
 import io
 import shutil
+from numpy.distutils.core import setup
 
+descr = """Intra-subject preprocessing of MRI data in pure Python!"""
 DISTNAME = 'pyaffineprep'
 DESCRIPTION = 'Statistical learning for neuroimaging in Python'
 LONG_DESCRIPTION = io.open('README.rst', encoding="utf8").read()
@@ -17,15 +17,13 @@ LICENSE = 'new BSD'
 DOWNLOAD_URL = 'http://pyaffineprep.github.com'
 VERSION = '0.1-git'
 
-from numpy.distutils.core import setup
-
 
 # For some commands, use setuptools
 if len(set(('develop', 'sdist', 'release', 'bdist_egg', 'bdist_rpm',
-           'bdist', 'bdist_dumb', 'bdist_wininst', 'install_egg_info',
-           'build_sphinx', 'egg_info', 'easy_install', 'upload',
+            'bdist', 'bdist_dumb', 'bdist_wininst', 'install_egg_info',
+            'build_sphinx', 'egg_info', 'easy_install', 'upload',
             )).intersection(sys.argv)) > 0:
-    from setuptools import setup
+    from setuptools import setup  # noqa
 
 
 def configuration(parent_package='', top_path=None):
@@ -62,7 +60,7 @@ if __name__ == "__main__":
     # build/py3k, and patch them using lib2to3.
     if sys.version_info[0] == 3:
         try:
-            import lib2to3cache
+            import lib2to3cache  # noqa
         except ImportError:
             pass
         local_path = os.path.join(local_path, 'build', 'py3k')

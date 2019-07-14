@@ -235,10 +235,10 @@ def trilinear_interp(f, shape, x, y, z):
     k111 = f[offset + shape[0] + 1]
 
     # combine everything to get the value of f at the point(s) (x, y, z)
-    return (((k222 * dx2 + k122 * dx1) * dy2  + \
-                 (k212 * dx2 + k112 * dx1) * dy1)) * dz2 + \
-                 (((k221 * dx2 + k121 * dx1) * dy2 + \
-                       (k211 * dx2 + k111 * dx1) * dy1)) * dz1
+    return (((k222 * dx2 + k122 * dx1) * dy2 +
+             (k212 * dx2 + k112 * dx1) * dy1)) * dz2 + \
+           (((k221 * dx2 + k121 * dx1) * dy2 +
+             (k211 * dx2 + k111 * dx1) * dy1)) * dz1
 
 
 def joint_histogram(ref, src, grid=None, samp=None, M=np.eye(4),
@@ -296,7 +296,7 @@ def joint_histogram(ref, src, grid=None, samp=None, M=np.eye(4),
     assert src.ndim == 3, src.shape
 
     if grid is None:
-        assert not samp is None, "Both grid and samp can't be None"
+        assert samp is not None, "Both grid and samp can't be None"
         assert is_niimg(ref), (
             "grid is None, expected niimg for ref, got %s"
             ) % type(ref)

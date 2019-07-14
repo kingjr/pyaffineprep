@@ -176,8 +176,7 @@ def _do_subject_smooth(subject_data, fwhm, prefix=None,
     sfunc = []
     for sess in range(subject_data.n_sessions):
         sess_func = subject_data.func[sess]
-        _tmp = mem.cache(smooth_image)(sess_func,
-                                   fwhm)
+        _tmp = mem.cache(smooth_image)(sess_func, fwhm)
         if write_output_images == 2:
             _tmp = mem.cache(save_vols)(
                 _tmp, subject_data.output_dir, basenames=func_basenames[sess],
@@ -373,7 +372,7 @@ def do_subject_preproc(
                 _func.append(mem.cache(save_vols)(
                     sess_func,
                     output_dir=subject_data.session_scratch_dirs[sidx],
-                    basenames=func_basenames[sess], prefix=func_prefix,
+                    basenames=func_basenames[sidx], prefix=func_prefix,
                     concat=True))
         if write_output_images == 2:
             subject_data.func = _func
@@ -383,7 +382,7 @@ def do_subject_preproc(
         _func = []
         for sidx, sess_func in enumerate(subject_data.func):
             if reslice:
-                subject_data.func[sess] = reslice_vols(subject_data.func[sess])
+                subject_data.func[sidx] = reslice_vols(subject_data.func[sidx])
             _func.append(mem.cache(save_vols)(
                 sess_func, output_dir=subject_data.session_scratch_dirs[sidx],
                 basenames=func_basenames[sidx], prefix=func_prefix,

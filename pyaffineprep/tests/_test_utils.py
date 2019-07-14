@@ -19,7 +19,7 @@ def create_random_image(shape=None,
 
     """
 
-    rng = np.random.RandomState(0)
+    np.random.RandomState(0)
 
     if shape is None:
         shape = np.random.random_integers(20, size=ndim)
@@ -27,7 +27,7 @@ def create_random_image(shape=None,
     ndim = len(shape)
 
     ndim = len(shape)
-    if not n_scans is None and ndim == 4:
+    if n_scans is not None and ndim == 4:
         shape[-1] = n_scans
 
     return parent_class(np.random.randn(*shape), affine)
@@ -87,14 +87,14 @@ def _save_img(img, filename):
 def _make_sd(func_filenames=None, anat_filename=None, ext=".nii.gz",
              n_sessions=1, make_sess_dirs=False, func_ndim=4,
              unique_func_names=False, output_dir="/tmp/titi"):
-    if not func_filenames is None:
+    if func_filenames is not None:
         n_sessions = len(func_filenames)
     func = [create_random_image(ndim=func_ndim) for _ in range(n_sessions)]
     anat = create_random_image(ndim=3)
     if anat_filename is None:
         anat_filename = '%s/anat%s' % (DATA_DIR, ext)
     _save_img(anat, anat_filename)
-    if not func_filenames is None:
+    if func_filenames is not None:
         for sess_func, filename in zip(func, func_filenames):
             if isinstance(filename, _basestring):
                 _save_img(sess_func, filename)

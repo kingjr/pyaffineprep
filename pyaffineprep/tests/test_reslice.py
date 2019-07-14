@@ -1,7 +1,6 @@
 import numpy as np
 from nose.tools import assert_false
 import nibabel
-from nilearn.image import iter_img
 from ..reslice import reslice_vols
 from ..affine_transformations import (
     get_initial_motion_params, apply_realignment)

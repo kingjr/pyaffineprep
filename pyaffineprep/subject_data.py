@@ -37,8 +37,8 @@ mc_tooltip = ("Motion parameters estimated during motion-"
               "parameters as confounds (nuissance regressors) "
               "in the the GLM.")
 segment_acronyms = ("Acronyms: TPM means Tissue Probability Map; GM means "
-                   "Grey-Matter;"
-                   " WM means White-Matter; CSF means Cerebro-Spinal Fuild")
+                    "Grey-Matter;"
+                    " WM means White-Matter; CSF means Cerebro-Spinal Fuild")
 reg_tooltip = ("The red contours should"
                " match the background image well. Otherwise, something might"
                " have gone wrong. Typically things that can go wrong include: "
@@ -66,7 +66,7 @@ tsdiffana_tooltips = [
     ("Variance index per slice. Note that acquisition artifacts can be slice"
      "-specific. Look at the data if there is a peak somewhere."),
     ("Scaled variance per slice indicates slices where artifacts occur."
-    " A slice/time with large variance should be eyeballed."),
+     " A slice/time with large variance should be eyeballed."),
     ("Large variations should be confined to vascular structures "
      "or ventricles. Large variations around the brain indicate"
      " residual motion effects."),
@@ -733,7 +733,7 @@ class SubjectData(object):
                 [self.anat, self.func], [cm.gray, cm.spectral]):
             if not brain:
                 continue
-            thumbs = generate_segmentation_thumbnails(
+            thumbs = self.generate_segmentation_thumbnails(
                 brain, self.reports_output_dir,
                 subject_gm_file=getattr(self, 'gm', None),
                 subject_wm_file=getattr(self, 'wm', None),
@@ -768,7 +768,7 @@ class SubjectData(object):
 
             # generate segmentation thumbs
             if segmented:
-                thumbs = generate_segmentation_thumbnails(
+                thumbs = self.generate_segmentation_thumbnails(
                     brain, self.reports_output_dir,
                     subject_gm_file=warped_tpms["mwgm"],
                     subject_wm_file=warped_tpms["mwwm"],
@@ -799,7 +799,7 @@ class SubjectData(object):
                         self.progress_logger.log('<hr/>')
 
             # generate normalization thumbs proper
-            thumbs = generate_normalization_thumbnails(
+            thumbs = self.generate_normalization_thumbnails(
                 brain, self.reports_output_dir, brain=brain_name,
                 execution_log_html_filename=execution_log_html if log
                 else None, results_gallery=self.results_gallery,
@@ -812,7 +812,8 @@ class SubjectData(object):
         Generate thumbnails post-smoothing.
         """
         # misc
-        if self.func is None: return
+        if self.func is None:
+            return
         if not self.reporting_enabled():
             self.init_report()
 

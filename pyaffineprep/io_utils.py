@@ -69,7 +69,8 @@ def load_vols(niimgs):
         pass
     try:
         # try loading volumes one-by-one
-        if isinstance(niimgs, _basestring): niimgs = [niimgs]
+        if isinstance(niimgs, _basestring):
+            niimgs = [niimgs]
         return [check_niimg(niimg, ensure_ndim=3) for niimg in niimgs]
     except TypeError:
         pass
@@ -84,7 +85,8 @@ def load_vols(niimgs):
             return list(iter_img(niimgs))
     else:
         niimgs = list(niimgs)
-        if len(niimgs) == 1: niimgs = niimgs[0]
+        if len(niimgs) == 1:
+            niimgs = niimgs[0]
         return list(iter_img(niimgs))
 
 
@@ -155,9 +157,8 @@ def save_vols(vols, output_dir, basenames=None, affine=None,
     if concat:
         if isinstance(vols, list):
             vols = nibabel.concat_images([_nifti_or_ndarray_to_nifti(vol)
-                                  for vol in vols],
-                                         check_affines=False
-                                         )
+                                          for vol in vols],
+                                         check_affines=False)
             if basenames is not None:
                 if not isinstance(basenames, _basestring):
                     basenames = basenames[0]
@@ -343,10 +344,8 @@ def delete_orientation(imgs, output_dir, output_tag=''):
     return output_imgs
 
 
-def do_3Dto4D_merge(
-    threeD_img_filenames,
-    output_dir=None,
-    output_filename=None):
+def do_3Dto4D_merge(threeD_img_filenames, output_dir=None,
+                    output_filename=None):
     """
     This function produces a single 4D nifti image from several 3D.
 
@@ -383,7 +382,7 @@ def do_3Dto4D_merge(
             fourD_img.get_affine())
 
     # save image to disk
-    if not output_filename is None:
+    if output_filename is not None:
         merge_mem.cache(nibabel.save)(fourD_img, output_filename)
 
     return fourD_img
@@ -751,7 +750,7 @@ def niigz2nii(ifilename, output_dir=None):
         return ifilename
 
     ofilename = ifilename[:-3]
-    if not output_dir is None:
+    if output_dir is not None:
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
         ofilename = os.path.join(output_dir, os.path.basename(ofilename))
@@ -795,7 +794,7 @@ def dcm2nii(source_names, terminal_output="allatonce", gzip_output=False,
         return source_names, None
 
     for source_name in [source_names] if isinstance(
-        source_names, _basestring) else source_names:
+            source_names, _basestring) else source_names:
         if not isdicom(source_name):
             return source_names, None  # not (all) DICOM; nothx to do
 
@@ -853,7 +852,7 @@ def _expand_path(path, relative_to=None):
         if _path == "..":
             _path = os.path.dirname(os.getcwd())
         else:
-            match = re.match("(?P<head>(?:\.{2}\/)+)(?P<tail>.*)", _path)
+            match = re.match("(?P<head>(?:\.{2}\/)+)(?P<tail>.*)", _path)  # noqa
             if match:
                 _path = os.getcwd()
                 for _ in range(len(match.group("head")) // 3):
@@ -871,7 +870,7 @@ def _expand_path(path, relative_to=None):
         else:
             _path = os.path.join(os.environ["HOME"], _path[2:])
 
-    if not _path is None:
+    if _path is not None:
         _path = os.path.abspath(_path)
 
     # restore cwd
@@ -934,7 +933,7 @@ def compute_output_voxel_size(img, voxel_size):
     if voxel_size in ['original', 'auto']:
         # write original voxel size
         return get_vox_dims(img)
-    elif not voxel_size is None:
+    elif voxel_size is not None:
         # set output voxel size to specified value
         return voxel_size
     else:
@@ -943,7 +942,8 @@ def compute_output_voxel_size(img, voxel_size):
 
 
 def sanitize_fwhm(fwhm):
-    if fwhm is None: return 0.  # no smoothing
+    if fwhm is None:
+        return 0.  # no smoothing
     if not np.shape(fwhm):
         fwhm = [fwhm, fwhm, fwhm]
     if len(fwhm) == 1:
