@@ -104,6 +104,11 @@ def reslice_vols(vols, target_affine=None, interp_order=3,
     """
 
     wrp = [1, 1, 0] if wrp is None else wrp
+
+    if isinstance(vols, str):
+        vols = nibabel.load(vols)
+        assert len(vols.shape) == 4
+        vols = [vols.slicer[:, :, :, idx] for idx in range(vols.shape[3])]
     vols = list(vols)
 
     def _log(msg):

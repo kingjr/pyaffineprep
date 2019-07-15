@@ -13,6 +13,7 @@ import warnings
 import numpy as np
 from matplotlib.pyplot import cm
 from sklearn.externals.joblib import Memory
+from nilearn.image import mean_img
 from nilearn._utils.compat import _basestring
 from .io_utils import (niigz2nii as do_niigz2nii, dcm2nii as do_dcm2nii,
                        nii2niigz as do_nii2niigz,
@@ -690,6 +691,8 @@ class SubjectData(object):
                 self.progress_logger.log('<hr/>')
 
         # generate thumbs proper
+        if isinstance(src, list) and src[0][-7:] == '.nii.gz':
+            src = mean_img(src[0])
         thumbs = generate_coregistration_thumbnails(
             (ref, ref_brain), (src, src_brain),
             self.reports_output_dir,
