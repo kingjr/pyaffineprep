@@ -382,7 +382,7 @@ def generate_coregistration_thumbnails(
     ----------
     target: tuple of length 2
         target[0]: string
-            path to reference image used in theco registration
+            path to reference image used in the coregistration
         target[1]: string
             short name (e.g 'anat', 'epi', 'MNI', etc.) for the
             reference image

@@ -516,7 +516,7 @@ def compute_mean_3D_image(images, output_filename=None):
                               threeD=True)
 
 
-def hard_link(filenames, output_dir):
+def hard_link(filenames, output_dir, verbose=1):
     """
     Auxiliary function for hardlinking files to specified output director.
 
@@ -559,15 +559,18 @@ def hard_link(filenames, output_dir):
             # hard-link the file proper
             try:
                 os.link(src, dst)
-                print("\tHardlinked %s -> %s ..." % (src, dst))
+                if verbose:
+                    print("\tHardlinked %s -> %s ..." % (src, dst))
             except OSError:
                 # cross linking on different devices ?
                 shutil.copy(src, dst)
-                print("\tCopied %s -> %s" % (src, dst))
+                if verbose:
+                    print("\tCopied %s -> %s" % (src, dst))
 
         return hardlinked_filenames[0]
     elif hasattr(filenames, "__iter__"):
-        return [hard_link(_filenames, output_dir) for _filenames in filenames]
+        return [hard_link(_filenames, output_dir, verbose)
+                for _filenames in filenames]
     else:
         return filenames
 
@@ -594,7 +597,7 @@ def get_basenames(x, ext=None):
         return None
 
 
-def loaduint8(img, log=None):
+def loaduint8(img, log=None, verbose=True):
     """Load data from file indicated by V into array of unsigned bytes.
 
     Parameters
@@ -609,7 +612,7 @@ def loaduint8(img, log=None):
 
     """
 
-    def _progress_bar(msg):
+    def _progress_bar(msg, verbose=True):
         """
         Progress bar.
 
@@ -617,10 +620,10 @@ def loaduint8(img, log=None):
 
         if log is not None:
             log(msg)
-        else:
+        elif verbose:
             print(msg)
 
-    _progress_bar("Loading %s..." % img)
+    _progress_bar("Loading %s..." % img, verbose)
 
     # load volume into memory
     img = load_vols(img)[0]
@@ -652,7 +655,7 @@ def loaduint8(img, log=None):
     # min/max
     mx = -np.inf
     mn = np.inf
-    _progress_bar("\tComputing min/max...")
+    _progress_bar("\tComputing min/max...", verbose)
     for p in range(vol.shape[2]):
         _img = _get_slice(p)
         mx = max(_img.max(), mx)
@@ -667,7 +670,7 @@ def loaduint8(img, log=None):
         uint8_dat[..., p] = np.uint8(np.maximum(np.minimum(np.round((
                             _img - mn) * (255. / (mx - mn))), 255.), 0.))
 
-    _progress_bar("...done.")
+    _progress_bar("...done.", verbose)
 
     # return the data
     if isinstance(img, _basestring) or is_niimg(img):

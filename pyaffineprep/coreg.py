@@ -173,7 +173,7 @@ def compute_similarity(params, ref, src, ref_affine, src_affine, grid,
     return compute_similarity_from_jhist(jh, fwhm=fwhm, cost_fun=cost_fun)
 
 
-def _run_powell(params, direct, tolsc, *otherargs):
+def _run_powell(params, direct, tolsc, *otherargs, verbose=True):
     """
     Run Powell optimization.
 
@@ -210,7 +210,8 @@ def _run_powell(params, direct, tolsc, *otherargs):
         # verbose
         token = "".join(['%-12.4g ' % z for z in x])
         token += '|  %.5g' % output
-        print(token)
+        if verbose:
+            print(token)
 
         return output
 
@@ -325,8 +326,8 @@ class Coregister(object):
         self.search_direction_ = np.diag(self.sc_ * 20)
 
         # load vols
-        target = loaduint8(target)
-        source = loaduint8(source)
+        target = loaduint8(target, verbose=self.verbose)
+        source = loaduint8(source, verbose=self.verbose)
 
         # tweak affines so we can play SPM games everafter
         target = nibabel.Nifti1Image(target.get_data(),
@@ -357,8 +358,9 @@ class Coregister(object):
         # pyramidal loop
         self.params_ = np.array(self.params_init)
         for samp in self.sep:
-            print("\r\nRunning Powell gradient-less local optimization "
-                  "(pyramidal level = %smm)..." % samp)
+            if self.verbose:
+                print("\r\nRunning Powell gradient-less local optimization "
+                      "(pyramidal level = %smm)..." % samp)
 
             # create sampled grid for target img
             grid = make_sampled_grid(target.shape, samp=_correct_voxel_samp(
@@ -374,7 +376,7 @@ class Coregister(object):
                 self.params_, self.search_direction_, self.sc_,
                 sampled_target, source, target.get_affine(),
                 source.get_affine(), grid, self.cost_fun,
-                self.fwhm, self.bins)
+                self.fwhm, self.bins, verbose=self.verbose)
 
         return self
 

@@ -58,7 +58,8 @@ def _get_mask(M, coords, dim, wrp=[1, 1, 0], tiny=5e-2):
 
 
 def reslice_vols(vols, target_affine=None, interp_order=3,
-                 interp_mode='constant', mask=True, wrp=None, log=None):
+                 interp_mode='constant', mask=True, wrp=None, log=None,
+                 verbose=True):
     """
     Uses B-spline interpolation to reslice (i.e resample) all other
     volumes to have thesame affine header matrix as the first (0th) volume.
@@ -108,7 +109,7 @@ def reslice_vols(vols, target_affine=None, interp_order=3,
     def _log(msg):
         if log:
             log(msg)
-        else:
+        elif verbose:
             print(msg)
 
     # load first vol

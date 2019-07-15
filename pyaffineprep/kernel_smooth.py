@@ -8,8 +8,6 @@ to nipy dev.
 
 """
 
-import os
-import sys
 import numpy as np
 import numpy.fft as npfft
 import nibabel as ni

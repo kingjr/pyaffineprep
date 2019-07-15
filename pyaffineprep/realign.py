@@ -658,7 +658,8 @@ class MRIMotionCorrection(object):
             if reslice:
                 self._log('Reslicing volumes for session %i/%i...' % (
                     sess + 1, self.n_sessions))
-                sess_rvols = list(reslice_vols(sess_rvols))
+                sess_rvols = list(reslice_vols(sess_rvols,
+                                               verbose=self.verbose))
                 self._log('...done; session %i/%i.' % (
                     sess + 1, self.n_sessions))
 

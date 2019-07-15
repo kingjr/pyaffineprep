@@ -435,7 +435,7 @@ class SubjectData(object):
         setattr(self, "realignment_parameters", rp_filenames)
         return rp_filenames
 
-    def hardlink_output_files(self, final=False):
+    def hardlink_output_files(self, final=False, verbose=1):
         """
         Hard-links output files to subject's immediate output directory.
 
@@ -456,7 +456,8 @@ class SubjectData(object):
                 if filename is not None:
                     filename = do_nii2niigz(filename, self.anat_scratch_dir)
                     linked_filename = hard_link(filename,
-                                                self.anat_output_dir)
+                                                self.anat_output_dir,
+                                                verbose)
             if final:
                 setattr(self, item, linked_filename)
 
